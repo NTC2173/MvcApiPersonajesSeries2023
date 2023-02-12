@@ -23,26 +23,21 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" 
-                                asp-controller="Personajes" 
-                                asp-action="CreatePersonaje">
+                            <a class="nav-link text-dark"
+                               asp-controller="Personajes"
+                               asp-action="CreatePersonaje">
                                 Nuevo personaje
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" 
-                                asp-controller="Personajes" 
-                                asp-action="UpdatePersonajeSerie">
+                            <a class="nav-link text-dark"
+                               asp-controller="Personajes"
+                               asp-action="UpdatePersonajeSerie">
                                 Modificar serie Personaje
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark"
-                               asp-controller="Series"
-                               asp-action="Index">
-                                Series
-                            </a>
-                        </li>
+
+                        @await Component.InvokeAsync("MenuSeries")
                     </ul>
                 </div>
             </div>

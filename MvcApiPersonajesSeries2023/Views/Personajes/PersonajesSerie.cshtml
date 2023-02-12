@@ -10,15 +10,15 @@
         </tr>
     </thead>
     <tbody>
-        @foreach(Personaje person in Model)
+        @foreach (Personaje person in Model)
         {
-            <tr>
-                <td>@person.Nombre</td>
-                <td>
-                    <img src="@person.Imagen" style="width: 100px; height: 100px"/>
-                </td>
-            </tr>
+                <tr>
+                    <td>@person.Nombre</td>
+                    <td>
+                        <img src="@person.Imagen"
+                        style="width: 100px; height: 100px;"/>
+                    </td>
+                </tr>
         }
     </tbody>
 </table>
-

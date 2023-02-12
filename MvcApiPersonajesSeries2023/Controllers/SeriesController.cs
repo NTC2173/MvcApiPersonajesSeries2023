@@ -15,7 +15,7 @@ namespace MvcApiPersonajesSeries2023.Controllers
         {
             this.service = service;
         }
-        
+
         public async Task<IActionResult> Index()
         {
             List<Serie> series = await this.service.GetSeriesAsync();

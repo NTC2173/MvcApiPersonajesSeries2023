@@ -15,7 +15,6 @@ namespace MvcApiPersonajesSeries2023.Services
         //con la API serán en formato JSON
         private MediaTypeWithQualityHeaderValue header;
 
-        //Constructor que recibe un parametro llamado 'url'
         public ServiceSeries(string url)
         {
             this.UrlApi = url;
@@ -25,11 +24,11 @@ namespace MvcApiPersonajesSeries2023.Services
         //Metodo privado llamado 'CallApiAsync', este metodo retorna un objeto de cualquier tipo
         //generico 'T' y recibe un parametro string llamado 'request'. 
         //Este metodo realiza una llamada asíncrona a una API externa usando el objeto HttpClient. 
-        private async Task<T> CallApiAsync <T>(string request)
+        private async Task<T> CallApiAsync<T>(string request)
         {
             //Se crea una instancia de HttpClient dentro de un bloque 'using', significa que cada vez 
             //que se ejecute el codigo dentro del bloque, se libera automaticamente el recurso HttpClient
-            using(HttpClient client = new HttpClient())
+            using (HttpClient client = new HttpClient())
             {
                 //Establece la direccion base para el cliente HttpClient en la direccion especificada 
                 //en la propiedad UrlApi. 
@@ -41,8 +40,9 @@ namespace MvcApiPersonajesSeries2023.Services
                 //Despues se realiza una llamada asincrona a la API usando el metodo 'GetAsync' y pasa
                 //el parametro 'request'. La respuesta recibida se almacena en una variable llamada
                 //'response'
-                HttpResponseMessage response = await client.GetAsync(request);
-                if(response.IsSuccessStatusCode)
+                HttpResponseMessage response =
+                    await client.GetAsync(request);
+                if (response.IsSuccessStatusCode)
                 {
                     //Si la respuesta API es exitosa se utiliza el metodo ReadAsAsync para deserializar 
                     //el contenido de la respuesta en un objeto del tipo especificado por 'T' y se retorna
@@ -55,7 +55,6 @@ namespace MvcApiPersonajesSeries2023.Services
                     //Si la respuesta del API no es exitosa, se retorna el valor predeterminado para 'T'
                     return default(T);
                 }
-
                 //EXPLICACION: El tipo genérico "T" es un tipo de parámetro de tipo en C# que permite crear métodos,
                 //clases, interfaces, estructuras, delegates, etc. que pueden trabajar con diferentes tipos de datos
                 //sin tener que especificar un tipo concreto.
@@ -83,7 +82,7 @@ namespace MvcApiPersonajesSeries2023.Services
             //Cuando se llame permite obtener una lista de objetos 'Serie' de la API, sin tener que 
             //preocuparse por los detalles de la llamada a la API o de la deserializacion de los datos
             //recibidos
-            return series; 
+            return series;
         }
 
         public async Task<Serie> FindSerieAsync(int idserie)
@@ -101,42 +100,40 @@ namespace MvcApiPersonajesSeries2023.Services
         {
             string request = "/api/personajes";
             List<Personaje> personajes = await this.CallApiAsync<List<Personaje>>(request);
-            return personajes; 
+            return personajes;
         }
 
         public async Task<List<Personaje>> GetPersonajesSerieAsync(int idserie)
         {
             string request = "/api/series/personajesserie/" + idserie;
             List<Personaje> personajes = await this.CallApiAsync<List<Personaje>>(request);
-            return personajes; 
+            return personajes;
         }
 
         public async Task<Personaje> FindPersonajeAsync(int idpersonaje)
         {
             string request = "/api/personajes/" + idpersonaje;
             Personaje personaje = await this.CallApiAsync<Personaje>(request);
-            return personaje; 
-
+            return personaje;
         }
 
         //Este metodo es una tarea que crea un nuevo personaje API
-        public async Task CreatePersonajeAsync(int id, string nombre, string imagen, int idserie)
+        public async Task CreatePersonajeAsync (int id, string nombre, string imagen, int idserie)
         {
             //Comienza creando un objeto HttpClient
             using (HttpClient client = new HttpClient())
             {
-                string request = "/api/personajes";
-                client.BaseAddress = new Uri(this.UrlApi);
-                client.DefaultRequestHeaders.Clear();
-                
                 //Se crea un nuevo objeto 'Personaje' y se asignan los valores para los parametros
                 //'id', 'nombre', 'imagen', 'idserie' a las propiedades correspondientes del objeto
                 //'Personaje'
+                string request = "/api/personajes";
+                client.BaseAddress = new Uri(this.UrlApi);
+                client.DefaultRequestHeaders.Clear();
                 Personaje personaje = new Personaje();
                 personaje.IdPersonaje = id;
                 personaje.Nombre = nombre;
                 personaje.Imagen = imagen;
-                personaje.IdSerie= idserie;
+                personaje.IdSerie = idserie;
 
                 //Se serializa el objeto "Personaje" a una cadena JSON utilizando el método
                 //"SerializeObject" de la clase JsonConvert.
@@ -156,17 +153,18 @@ namespace MvcApiPersonajesSeries2023.Services
         {
             using (HttpClient client = new HttpClient())
             {
-                string request = "/api/personajes/updatepersonajeserie/" + idpersonaje + "/" + idserie;
+                string request = "/api/personajes/updatepersonajeserie/"
+                    + idpersonaje + "/" + idserie;
                 client.BaseAddress = new Uri(this.UrlApi);
                 client.DefaultRequestHeaders.Clear();
-                //AUNQUE NO CREEMOS NADA, DEBEMOS ENVIAR UN OBJETO VACIO Content EN LA PETICION DEL 
-                //PUT
-                StringContent content = new StringContent("", Encoding.UTF8, "application/json");
-                await client.PostAsync(request, content);
+                //AUNQUE NO CREEMOS NADA, DEBEMOS ENVIAR UN OBJETO
+                //VACIO Content EN LA PETICION DEL PUT
+                StringContent content =
+                    new StringContent("", Encoding.UTF8, "application/json");
+                await client.PutAsync(request, content);
             }
         }
 
         #endregion
-
     }
 }
